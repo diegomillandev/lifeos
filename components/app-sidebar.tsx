@@ -5,6 +5,7 @@ import {
   AudioWaveform,
   CalendarCheck2,
   LayoutDashboard,
+  Tickets,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -22,17 +23,12 @@ import Link from "next/link";
 import { NavWorkspaces } from "./nav-workspaces";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
       url: "#",
       icon: LayoutDashboard,
-    }
+    },
   ],
   NavWorkspaces: [
     {
@@ -51,33 +47,34 @@ const data = {
         },
       ],
     },
-    // {
-    //   title: "Health",
-    //   isActive: true,
-    //   items: [
-    //     {
-    //       icon: Ham,
-    //       title: "Nutrition",
-    //       url: "#",
-    //     },
-    //     {
-    //       icon: Dumbbell,
-    //       title: "Fitness",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
+    {
+      title: "Cash Tracker",
+      isActive: true,
+      icon: Tickets,
+      url: "/cash-tracker",
+      items: [
+        {
+          title: "Income",
+          url: "/cash-tracker/income",
+        },
+        {
+          title: "Expense",
+          url: "/cash-tracker/expense",
+        },
+      ],
+    },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href="#">
+              <Link href="/">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <AudioWaveform className="size-5" />
                 </div>
@@ -94,7 +91,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavWorkspaces items={data.NavWorkspaces} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser/>
       </SidebarFooter>
     </Sidebar>
   );

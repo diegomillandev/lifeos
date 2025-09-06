@@ -1,3 +1,5 @@
+"use client";
+
 import { AppSidebar } from "@/components/app-sidebar";
 import { ModeToggle } from "@/components/mode-toggle";
 import {
@@ -5,12 +7,20 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useAppStore } from "@/stores/useAppStore";
+import { useEffect } from "react";
 
 export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const fetchUser = useAppStore((state) => state.fetchUser);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+  
   return (
     <SidebarProvider>
       <AppSidebar />

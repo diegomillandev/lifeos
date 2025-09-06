@@ -1,15 +1,13 @@
 import Heading from "@/components/Heading";
-import { NewHabitForm } from "@/components/pages/habits/components/new-habit-form";
 
 export default function HabitsPage() {
   return (
     <>
       <div className="space-y-2 flex items-cente justify-between">
         <Heading
-          title="Habits"
-          description="Track your habits and build a better you, one day at a time"
+          title="Cash Tracker"
+          description="Track your income and expenses to manage your finances effectively."
         />
-        <NewHabitForm />
       </div>
     </>
   );

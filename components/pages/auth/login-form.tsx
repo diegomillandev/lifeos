@@ -26,7 +26,7 @@ export const LoginForm = () => {
     password: "",
   });
 
-  const [state, dispatch] = useActionState(login, {
+  const [state, dispatch, pending] = useActionState(login, {
     errors: {},
     response: {
       success: false,
@@ -71,7 +71,9 @@ export const LoginForm = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className={cn(borderRed && state.errors.email && "border-red-500")}
+                  className={cn(
+                    borderRed && state.errors.email && "border-red-500"
+                  )}
                   value={formData.email}
                   placeholder="millan@example.com"
                   required
@@ -88,7 +90,7 @@ export const LoginForm = () => {
                 }
               />
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={pending}>
                   Login
                 </Button>
               </div>

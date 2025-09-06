@@ -37,7 +37,10 @@ export async function GET() {
         );
       }
 
-      return NextResponse.json({ success: true, user: userFind }, { status: 200 });
+      return NextResponse.json(
+        { success: true, user: userFind },
+        { status: 200 }
+      );
     } catch (error) {
       console.log(error);
       return NextResponse.json(
