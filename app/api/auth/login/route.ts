@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 import z from "zod";
@@ -51,7 +50,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const token = generateJWT(user._id.toString());
+    const token = await generateJWT(user._id.toString());
 
     return NextResponse.json(
       {

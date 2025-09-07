@@ -1,9 +1,8 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "@/constants/env";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
+import { verifyJWT } from "@/utils/jwt";
 
 export async function GET() {
   try {
@@ -21,11 +20,11 @@ export async function GET() {
     }
 
     try {
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = await verifyJWT(token);
       await connectDB();
-      const userFind = await User.findById(
-        (decoded as { id: string }).id
-      ).select("-password -createdAt -updatedAt");
+      const userFind = await User.findById({ _id: decoded.payload.id }).select(
+        "-password -createdAt -updatedAt"
+      );
 
       if (!userFind) {
         return NextResponse.json(
@@ -53,8 +52,8 @@ export async function GET() {
     }
   } catch (error) {
     console.log(error);
-    return new Response(
-      JSON.stringify({ success: false, message: "Error interno" }),
+    return NextResponse.json(
+      { message: "Error processing POST request", error: String(error) },
       { status: 500 }
     );
   }

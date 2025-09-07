@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { RegisterSchema } from "@/schemas/auth";
-import { RegisterInput } from "@/types/auth";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 import z from "zod";
+import { RegisterInput } from "@/types/api/auth";
 
 export async function POST(req: NextRequest) {
   try {

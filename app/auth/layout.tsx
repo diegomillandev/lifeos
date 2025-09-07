@@ -1,10 +1,16 @@
 import { Sprout } from "lucide-react";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function RootLayout({
+export default async function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const token = (await cookies()).get("LIFEOS_TOKEN")?.value;
+  if (token) {
+    redirect("/");
+  }
   return (
     <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-6">

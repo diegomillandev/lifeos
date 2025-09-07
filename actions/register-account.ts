@@ -1,7 +1,10 @@
 "use server";
 
 import { NEXT_PUBLIC_BASE_URL } from "@/constants/env";
-import { RegisterResponseApiSchema, RegisterSchemaActions } from "@/schemas/actions";
+import {
+  RegisterResponseApiSchema,
+  RegisterSchemaActions,
+} from "@/schemas/actions";
 import z from "zod";
 
 type ActionStateType = {
@@ -40,8 +43,8 @@ export async function register(prevState: ActionStateType, formData: FormData) {
       },
       response: {
         success: false,
-        message: "Please fix the errors below and try again."
-      }
+        message: "Please fix the errors below and try again.",
+      },
     };
   }
 
@@ -56,13 +59,13 @@ export async function register(prevState: ActionStateType, formData: FormData) {
   });
 
   const json = await req.json();
-  
-  if(req.status !== 201) {
+
+  if (req.status !== 201) {
     return {
       errors: prevState.errors,
       response: {
         success: false,
-        message: json.message || "Something went wrong. Please try again." 
+        message: json.message || "Something went wrong. Please try again.",
       },
     };
   }
@@ -74,17 +77,16 @@ export async function register(prevState: ActionStateType, formData: FormData) {
       errors: prevState.errors,
       response: {
         success: false,
-        message: "Something went wrong. Please try again."
+        message: "Something went wrong. Please try again.",
       },
     };
   }
-
 
   return {
     errors: prevState.errors,
     response: {
       success: true,
-      message: responseApi.message
+      message: responseApi.message,
     },
   };
 }
