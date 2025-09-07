@@ -16,11 +16,15 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   const fetchUser = useAppStore((state) => state.fetchUser);
+  const user = useAppStore((state) => state.user);
 
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
-  
+    if (!user) {
+      fetchUser();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -29,9 +33,7 @@ export default function AppLayout({
           <SidebarTrigger className="-ml-1" />
           <ModeToggle />
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4">
-          {children}
-        </main>
+        <main className="flex flex-1 flex-col gap-4 p-4">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

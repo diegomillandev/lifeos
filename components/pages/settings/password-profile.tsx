@@ -4,11 +4,12 @@ import { passwordAccount } from "@/actions/password-account";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LoaderCircle } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
 export const PasswordProfile = () => {
-  const [state, dispatch] = useActionState(passwordAccount, {
+  const [state, dispatch, pending] = useActionState(passwordAccount, {
     errors: {},
     response: { success: false, message: "" },
   });
@@ -64,7 +65,10 @@ export const PasswordProfile = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button>Save password</Button>
+          <Button disabled={pending} type="submit">
+            {pending && <LoaderCircle className="h-4 w-4 animate-spin" />}
+            Save password
+          </Button>
         </div>
       </>
     </form>

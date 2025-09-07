@@ -17,6 +17,7 @@ import { useActionState, useEffect, useState } from "react";
 import { login } from "@/actions/login-account";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { LoaderCircle } from "lucide-react";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -91,6 +92,7 @@ export const LoginForm = () => {
               />
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full" disabled={pending}>
+                  {pending && <LoaderCircle className="h-4 w-4 animate-spin" />}
                   Login
                 </Button>
               </div>

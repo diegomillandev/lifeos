@@ -23,7 +23,7 @@ export async function GET() {
       const decoded = await verifyJWT(token);
       await connectDB();
       const userFind = await User.findById({ _id: decoded.payload.id }).select(
-        "-password -createdAt -updatedAt"
+        "-password -createdAt -updatedAt -_id"
       );
 
       if (!userFind) {

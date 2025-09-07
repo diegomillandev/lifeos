@@ -47,3 +47,32 @@ export const ChangePasswordSchemaActions = z
     message: "New passwords don't match",
     path: ["confirmNewPassword"],
   });
+
+export const ChangePasswordResponseApiSchema = z.object({
+  success: z.boolean(),
+  message: z.string(),
+  erros: z
+    .object({
+      currentPassword: z.array(z.string()).optional(),
+      newPassword: z.array(z.string()).optional(),
+      confirmNewPassword: z.array(z.string()).optional(),
+    })
+    .optional(),
+});
+
+// profile update schema
+export const ProfileSchemaActions = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.email("Invalid email address"),
+});
+
+export const ProfileResponseApiSchema = z.object({
+  success: z.boolean(),
+  message: z.string(),
+  erros: z
+    .object({
+      name: z.array(z.string()).optional(),
+      email: z.array(z.string()).optional(),
+    })
+    .optional(),
+});

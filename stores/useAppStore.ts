@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { userSlice, UserSliceType } from "./userSlice";
 
-export const useAppStore = create<UserSliceType>((...a) => ({
+type StoreState = UserSliceType;
+
+export const useAppStore = create<StoreState>((...a) => ({
   ...userSlice(...a),
 }));

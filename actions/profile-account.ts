@@ -2,49 +2,41 @@
 
 import { NEXT_PUBLIC_BASE_URL } from "@/constants/env";
 import {
-  ChangePasswordResponseApiSchema,
-  ChangePasswordSchemaActions,
+  ProfileResponseApiSchema,
+  ProfileSchemaActions,
 } from "@/schemas/actions";
 import { cookies } from "next/headers";
 import z from "zod";
 
 type ActionStateType = {
   errors: {
-    currentPassword?: string;
-    newPassword?: string;
-    confirmNewPassword?: string;
+    name?: string;
+    email?: string;
   };
   response: {
     success: boolean;
     message: string;
     errors?: {
-      currentPassword?: string[];
-      newPassword?: string[];
-      confirmNewPassword?: string[];
+      name?: string;
+      email?: string;
     };
   };
 };
 
-export async function passwordAccount(
-  prevState: ActionStateType,
-  formData: FormData
-) {
-  const passwordData = {
-    currentPassword: formData.get("currentPassword") as string,
-    newPassword: formData.get("newPassword") as string,
-    confirmNewPassword: formData.get("confirmNewPassword") as string,
+export async function profile(prevState: ActionStateType, formData: FormData) {
+  const profileData = {
+    name: formData.get("name")?.toString() || "",
+    email: formData.get("email")?.toString() || "",
   };
 
-  const password = ChangePasswordSchemaActions.safeParse(passwordData);
+  const profile = ProfileSchemaActions.safeParse(profileData);
 
-  if (!password.success) {
-    const fieldErrors = z.flattenError(password.error).fieldErrors;
-
+  if (!profile.success) {
+    const fieldErrors = z.flattenError(profile.error).fieldErrors;
     return {
       errors: {
-        currentPassword: fieldErrors.currentPassword?.[0],
-        newPassword: fieldErrors.newPassword?.[0],
-        confirmNewPassword: fieldErrors.confirmNewPassword?.[0],
+        name: fieldErrors.name?.[0],
+        email: fieldErrors.email?.[0],
       },
       response: prevState.response,
     };
@@ -61,13 +53,13 @@ export async function passwordAccount(
     };
   }
 
-  const url = `${NEXT_PUBLIC_BASE_URL}/api/auth/change-password`;
+  const url = `${NEXT_PUBLIC_BASE_URL}/api/auth/user`;
   const req = await fetch(url, {
     method: "POST",
     headers: {
       token: token,
     },
-    body: JSON.stringify(password.data),
+    body: JSON.stringify(profile.data),
   });
 
   const data = await req.json();
@@ -83,7 +75,7 @@ export async function passwordAccount(
     };
   }
 
-  const responseApi = ChangePasswordResponseApiSchema.safeParse(data);
+  const responseApi = ProfileResponseApiSchema.safeParse(data);
 
   if (!responseApi.success) {
     return {
@@ -97,6 +89,9 @@ export async function passwordAccount(
 
   return {
     errors: {},
-    response: { success: true, message: responseApi.data.message },
+    response: {
+      success: true,
+      message: responseApi.data.message,
+    },
   };
 }
